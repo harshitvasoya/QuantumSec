@@ -34,13 +34,14 @@ const AboutMePage = () => {
                 degree: 'M. Tech in Cyber Security',
                 institution: 'National Forensic Sciences University',
                 year: '2023-2025',
-                details: 'Specialized in Cybersecurity & ethical hacking.'
+                details: 'Specialized in Cybersecurity & ethical hacking.',
               },
               {
                 degree: 'B. Tech in Computer Science',
                 institution: 'Indus University',
                 year: '2019-2023',
-                details: 'Focused on algorithms, data structures, and foundational programming and development.'
+                details:
+                  'Focused on algorithms, data structures, and foundational programming and development.',
               },
             ],
             certifications: [
@@ -67,7 +68,7 @@ const AboutMePage = () => {
       setResumeLoading(true);
       setResumeError(null);
 
-      const res = await fetch('http://localhost:5000/api/resume'); // Backend resume route
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/resume`);
       if (!res.ok) throw new Error('Resume not found');
 
       const blob = await res.blob();
@@ -79,6 +80,7 @@ const AboutMePage = () => {
       a.click();
       window.URL.revokeObjectURL(url);
     } catch (err) {
+      console.error('Resume download error:', err);
       setResumeError('Unable to download resume. Please try again later.');
     } finally {
       setResumeLoading(false);
@@ -100,7 +102,13 @@ const AboutMePage = () => {
           <ul className="list-disc list-inside space-y-2 text-gray-300">
             {content.skills.map((skill, index) => (
               <li key={index} className="flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 mr-2 text-green-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
                 {skill}
@@ -115,7 +123,9 @@ const AboutMePage = () => {
           {content.education.map((edu, index) => (
             <div key={index} className="mb-4 bg-gray-700 p-4 rounded-lg shadow">
               <h3 className="text-xl font-medium text-white">{edu.degree}</h3>
-              <p className="text-gray-300">{edu.institution}, {edu.year}</p>
+              <p className="text-gray-300">
+                {edu.institution}, {edu.year}
+              </p>
               <p className="text-sm text-gray-400 mt-1">{edu.details}</p>
             </div>
           ))}

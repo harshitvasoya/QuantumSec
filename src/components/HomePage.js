@@ -53,7 +53,7 @@ const HomePage = () => {
     setRateLimitExceeded(false);
 
     try {
-      const res = await fetch('http://localhost:5000/api/ask-gemini', {
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/ask-gemini`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

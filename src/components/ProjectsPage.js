@@ -10,10 +10,13 @@ const ProjectsPage = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/projects'); // or just `/api/projects` if you use proxy
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/projects`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const data = await response.json();
 
-        // Optional: Validate structure
         const sanitized = data.map((p) => ({
           id: p._id,
           title: p.title,
@@ -27,6 +30,7 @@ const ProjectsPage = () => {
 
         setProjects(sanitized);
       } catch (err) {
+        console.error('Fetch error:', err);
         setError('Failed to load projects from the server.');
       } finally {
         setLoading(false);
@@ -55,13 +59,16 @@ const ProjectsPage = () => {
               src={project.image}
               alt={`${project.title} screenshot`}
               className="w-full h-48 object-cover"
-              onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/400x250/3e4451/abb2bf?text=Image+Not+Found'; }}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.src = 'https://placehold.co/400x250/3e4451/abb2bf?text=Image+Not+Found';
+              }}
             />
             <div className="p-5">
               <h3 className="text-xl font-semibold text-blue-300 mb-2">{project.title}</h3>
               <p className="text-gray-300 text-sm mb-4">{project.description}</p>
               <div className="flex flex-wrap gap-2 mb-4">
-                {(project.technologies || []).map((tech, index) => (
+                {project.technologies.map((tech, index) => (
                   <span key={index} className="bg-gray-600 text-gray-200 text-xs px-3 py-1 rounded-full">
                     {tech}
                   </span>
@@ -74,7 +81,7 @@ const ProjectsPage = () => {
                     href={project.githubLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center text-green-400 hover:text-green-300 transition-colors duration-300 font-medium"
+                    className="text-green-400 hover:text-green-300 transition-colors duration-300 font-medium"
                   >
                     GitHub
                   </a>
@@ -84,7 +91,7 @@ const ProjectsPage = () => {
                     href={project.demoLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center text-blue-400 hover:text-blue-300 transition-colors duration-300 font-medium"
+                    className="text-blue-400 hover:text-blue-300 transition-colors duration-300 font-medium"
                   >
                     Live Demo
                   </a>
