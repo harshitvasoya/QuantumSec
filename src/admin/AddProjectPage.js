@@ -22,7 +22,7 @@ const AddProjectPage = () => {
     e.preventDefault();
     const token = localStorage.getItem('admin-token');
 
-    const response = await fetch('http://localhost:5000/api/projects', {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/projects`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
