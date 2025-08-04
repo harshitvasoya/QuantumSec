@@ -2,9 +2,6 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 
-const ADMIN_EMAIL = 'admin@yourdomain.com';
-const ADMIN_PASSWORD = 'yoursecurepassword';
-
 // POST /api/admin/login
 router.post('/login', (req, res) => {
   const { email, password } = req.body;

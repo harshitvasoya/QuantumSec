@@ -3,11 +3,6 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const router = express.Router();
 
-// Dummy admin user (for production, use DB and hashed password)
-const ADMIN_USER = {
-  username: 'admin',
-  password: 'secure@123',
-};
 
 // 🔐 POST /api/admin/login - Admin Login Endpoint
 router.post('/login', (req, res) => {
