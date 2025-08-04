@@ -60,7 +60,7 @@ const NavBar = () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/resume/download-resume`);
+      const res = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/resume`);
       if (!res.ok) throw new Error('Resume download failed');
       const blob = await res.blob();
       const url = window.URL.createObjectURL(blob);
